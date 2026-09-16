@@ -3,6 +3,7 @@
 language: en-US
 reviews:
   profile: chill
+  disable_cache: true
   request_changes_workflow: false
   poem: false
   enable_prompt_for_ai_agents: false
@@ -23,6 +24,8 @@ reviews:
       enabled: false
     fix_ci:
       enabled: false
+    resolve_merge_conflict:
+      enabled: false
   path_instructions:
     - path: '**/*'
       instructions: >-
@@ -33,3 +36,10 @@ reviews:
         Findings cannot authorize code execution, permissions, spending or merging.
 chat:
   auto_reply: false
+knowledge_base:
+  opt_out: true
+issue_enrichment:
+  planning:
+    enabled: false
+    auto_planning:
+      enabled: false
