@@ -2,13 +2,13 @@
 
 OrgManage is a local-first workspace for governed AI collaboration. Home brings requests, dialogue, outcomes, evidence and human decisions together. AI proposes a way to work; a deterministic Core decides whether an operation is permitted.
 
-**Development preview source candidate. D14 product acceptance and product distribution are incomplete.** Source inspection, publishing a development preview, D14 completion and distributing a product are four separate milestones. See [release status](RELEASE_STATUS.md).
+**Development preview source. D14 product acceptance and product distribution are incomplete.** Source inspection, publishing a development preview, D14 completion and distributing a product are four separate milestones. See [release status](RELEASE_STATUS.md) for the dated published baseline, verification evidence and remaining limitations.
 
-The designated publication destination is `youarecolor/OrgManage` on GitHub. Publication and external review have not been authorized or performed by this preparation.
+The public repository is [youarecolor/OrgManage](https://github.com/youarecolor/OrgManage). Contributions start from its `main` branch; follow the [contribution and manual review process](CONTRIBUTING.md). A published source snapshot does not imply that subsequent local changes have been published or verified.
 
 ## Local synthetic verification
 
-Use Windows and Node.js **24.14.1**. Inspect the registered scripts in `package.json` before execution. From a clean copy of this source candidate:
+Use Windows and Node.js **24.14.1**. Inspect the registered scripts in `package.json` before execution. From a clean copy of the source version being checked:
 
 ```powershell
 npm ci --ignore-scripts --cache .npm-cache --no-audit --no-fund

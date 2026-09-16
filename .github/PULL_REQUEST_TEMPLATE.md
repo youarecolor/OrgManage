@@ -4,15 +4,20 @@ Describe the concrete trigger, expected behavior and affected requirements.
 
 ## Scope and evidence
 
-- Base commit / manifest hash:
-- Final tested commit / manifest hash:
+- Public base commit and proposed head commit:
+- Final tested commit and CI run URL (include actual checkout when different):
+- Changed files:
 - Commands and results using synthetic data:
 - Changes since the reviewed base and how they were reconciled:
 - Remaining limitations or checks not run:
 
 ## Review decisions
 
+Manual review reference and recognized head, or not run with reason:
+
 Record each substantive AI/human finding, reproduction/evidence, accepted/rejected/deferred decision, reason and validation. Do not paste secrets or private evidence.
+
+Contributors do not need private manifests. Maintainers record any internal mapping/hash reconciliation separately. Follow CONTRIBUTING.md for manual review authorization; do not request paid capacity or enable automation.
 
 ## Boundaries
 

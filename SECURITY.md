@@ -2,11 +2,13 @@
 
 ## Supported state
 
-No production release or security support lifetime is declared for this development source candidate. Source checks and hosted scanning have limited coverage and cannot prove the absence of secrets or vulnerabilities.
+No production release or security support lifetime is declared for this development preview source. See [release status](RELEASE_STATUS.md) for the published baseline. Source checks and hosted scanning have limited coverage and cannot prove the absence of secrets or vulnerabilities.
 
 ## Reporting
 
-Do not put exploit details, credentials, personal information, ledgers or production logs into public issues, PRs or AI review prompts. The planned reporting channel is **Security → Report a vulnerability** in the designated GitHub repository `youarecolor/OrgManage`. Repository publication and private reporting have not been enabled or verified by this preparation. Once enabled by the owner, use that private reporting function. If it is absent, report only that a private reporting channel is needed, without sensitive details. A working private reporting channel and response responsibility must be verified before publication; no email address or individual responder is inferred in this candidate.
+Do not put exploit details, credentials, personal information, ledgers or production logs into public issues, PRs or AI review prompts. Use [Security → Report a vulnerability](https://github.com/youarecolor/OrgManage/security/advisories/new). Private vulnerability reporting was verified enabled on 2026-09-16. Repository maintainers receive reports through GitHub; notification delivery and a response-time commitment have not been established by the source checks. No separate email address or named individual responder is declared.
+
+If the private reporting function is unavailable, report only that a private channel is needed, without sensitive details. Do not substitute a public issue or an AI review prompt for a confidential report.
 
 Include affected source version, a synthetic reproduction, expected and observed behavior, likely impact and any safe mitigation. Avoid live attacks or testing other accounts. If a real secret has already been exposed, the credential owner should revoke or rotate it and investigate exposure; removing a file or rewriting history alone does not revoke a credential.
 
