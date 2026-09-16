@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orgmanage:i1-p01:CommandReceipt:0.1",
+  "title": "CommandReceipt",
+  "description": "Trusted bundled contract profile 0.1. Shape validation alone grants no authority and proves no execution.",
+  "oneOf": [
+    {
+      "title": "CommittedCommandReceipt",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "command_id",
+        "disposition",
+        "visible_cursor",
+        "result_ref",
+        "error_code"
+      ],
+      "properties": {
+        "command_id": {
+          "$ref": "#/$defs/id"
+        },
+        "disposition": {
+          "type": "string",
+          "const": "committed"
+        },
+        "visible_cursor": {
+          "$ref": "#/$defs/visibleCursor"
+        },
+        "result_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error_code": {
+          "type": "null"
+        }
+      }
+    },
+    {
+      "title": "RejectedCommandReceipt",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "command_id",
+        "disposition",
+        "visible_cursor",
+        "result_ref",
+        "error_code"
+      ],
+      "properties": {
+        "command_id": {
+          "$ref": "#/$defs/id"
+        },
+        "disposition": {
+          "type": "string",
+          "const": "rejected"
+        },
+        "visible_cursor": {
+          "$ref": "#/$defs/visibleCursor"
+        },
+        "result_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error_code": {
+          "type": "string",
+          "enum": [
+            "REVISION_CONFLICT",
+            "COMMAND_CONFLICT",
+            "ALREADY_INITIALIZED",
+            "DENIED",
+            "POLICY_EXPIRED",
+            "BUDGET_BLOCKED",
+            "CAPABILITY_UNVERIFIED",
+            "ARTIFACT_NOT_READY"
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}(?![\\s\\S])",
+      "minLength": 36,
+      "maxLength": 36
+    },
+    "visibleCursor": {
+      "type": "string",
+      "minLength": 32,
+      "maxLength": 256,
+      "pattern": "^[A-Za-z0-9_-]{32,256}(?![\\s\\S])"
+    }
+  }
+}

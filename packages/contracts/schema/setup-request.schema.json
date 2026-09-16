@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orgmanage:i1-p01:SetupRequest:0.1",
+  "title": "SetupRequest",
+  "description": "Trusted bundled contract profile 0.1. Shape validation alone grants no authority and proves no execution.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "setup_command_id",
+    "principal",
+    "owner_binding_candidate"
+  ],
+  "properties": {
+    "protocol_version": {
+      "type": "integer",
+      "const": 1
+    },
+    "setup_command_id": {
+      "$ref": "#/$defs/id"
+    },
+    "principal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "display_name"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "person",
+            "organization"
+          ]
+        },
+        "display_name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        }
+      }
+    },
+    "owner_binding_candidate": {
+      "type": "null"
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}(?![\\s\\S])",
+      "minLength": 36,
+      "maxLength": 36
+    }
+  }
+}

@@ -1,0 +1,546 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orgmanage:i1-p01:Command:0.1",
+  "title": "Command",
+  "description": "Trusted bundled contract profile 0.1. Shape validation alone grants no authority and proves no execution.",
+  "oneOf": [
+    {
+      "title": "BudgetConfigureCommand",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protocol_version", "command_id", "command_type", "target_id", "expected_revision", "payload"],
+      "properties": {
+        "protocol_version": {"type": "integer", "const": 1},
+        "command_id": {"$ref": "#/$defs/id"},
+        "command_type": {"type": "string", "const": "budget.configure"},
+        "target_id": {"$ref": "#/$defs/id"},
+        "expected_revision": {"$ref": "#/$defs/revision"},
+        "payload": {
+          "type": "object", "additionalProperties": false,
+          "required": ["currency", "normal_limit", "reserve_limit", "autonomous_e_limit"],
+          "properties": {
+            "currency": {"type": "string", "const": "USD"},
+            "normal_limit": {"$ref": "#/$defs/usdAmount"},
+            "reserve_limit": {"$ref": "#/$defs/usdAmount"},
+            "autonomous_e_limit": {"$ref": "#/$defs/usdAmount"}
+          }
+        }
+      }
+    },
+    {
+      "title": "ConversationPostCommand",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol_version",
+        "command_id",
+        "command_type",
+        "target_id",
+        "expected_revision",
+        "payload"
+      ],
+      "properties": {
+        "protocol_version": {
+          "type": "integer",
+          "const": 1
+        },
+        "command_id": {
+          "$ref": "#/$defs/id"
+        },
+        "command_type": {
+          "type": "string",
+          "const": "conversation.post"
+        },
+        "target_id": {
+          "$ref": "#/$defs/id"
+        },
+        "expected_revision": {
+          "$ref": "#/$defs/revision"
+        },
+        "payload": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "message_id",
+            "raw_text",
+            "attachment_refs",
+            "relation_hint"
+          ],
+          "properties": {
+            "message_id": {
+              "$ref": "#/$defs/id"
+            },
+            "raw_text": {
+              "type": "string",
+              "maxLength": 65536
+            },
+            "attachment_refs": {
+              "$ref": "#/$defs/refs"
+            },
+            "relation_hint": {
+              "type": "string",
+              "enum": [
+                "continue",
+                "new",
+                "unspecified"
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "MissionStartCommand",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol_version",
+        "command_id",
+        "command_type",
+        "target_id",
+        "expected_revision",
+        "payload"
+      ],
+      "properties": {
+        "protocol_version": {
+          "type": "integer",
+          "const": 1
+        },
+        "command_id": {
+          "$ref": "#/$defs/id"
+        },
+        "command_type": {
+          "type": "string",
+          "const": "mission.start"
+        },
+        "target_id": {
+          "$ref": "#/$defs/id"
+        },
+        "expected_revision": {
+          "$ref": "#/$defs/revision"
+        },
+        "payload": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "brief_revision",
+            "contract_revision"
+          ],
+          "properties": {
+            "brief_revision": {
+              "$ref": "#/$defs/id"
+            },
+            "contract_revision": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "OutcomeDecideCommand",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol_version",
+        "command_id",
+        "command_type",
+        "target_id",
+        "expected_revision",
+        "payload"
+      ],
+      "properties": {
+        "protocol_version": {
+          "type": "integer",
+          "const": 1
+        },
+        "command_id": {
+          "$ref": "#/$defs/id"
+        },
+        "command_type": {
+          "type": "string",
+          "const": "outcome.decide"
+        },
+        "target_id": {
+          "$ref": "#/$defs/id"
+        },
+        "expected_revision": {
+          "$ref": "#/$defs/revision"
+        },
+        "payload": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "artifact_revision_id",
+            "choice",
+            "comment",
+            "explanation_revision"
+          ],
+          "properties": {
+            "artifact_revision_id": {
+              "$ref": "#/$defs/id"
+            },
+            "choice": {
+              "type": "string",
+              "enum": [
+                "accepted",
+                "revise",
+                "hold",
+                "close"
+              ]
+            },
+            "comment": {
+              "$ref": "#/$defs/comment"
+            },
+            "explanation_revision": {
+              "$ref": "#/$defs/revision"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "ApprovalDecideCommand",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol_version",
+        "command_id",
+        "command_type",
+        "target_id",
+        "expected_revision",
+        "payload"
+      ],
+      "properties": {
+        "protocol_version": {
+          "type": "integer",
+          "const": 1
+        },
+        "command_id": {
+          "$ref": "#/$defs/id"
+        },
+        "command_type": {
+          "type": "string",
+          "const": "approval.decide"
+        },
+        "target_id": {
+          "$ref": "#/$defs/id"
+        },
+        "expected_revision": {
+          "$ref": "#/$defs/revision"
+        },
+        "payload": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "action_digest",
+            "choice",
+            "comment",
+            "explanation_revision"
+          ],
+          "properties": {
+            "action_digest": {
+              "$ref": "#/$defs/hash"
+            },
+            "choice": {
+              "type": "string",
+              "enum": [
+                "approve",
+                "deny"
+              ]
+            },
+            "comment": {
+              "$ref": "#/$defs/comment"
+            },
+            "explanation_revision": {
+              "$ref": "#/$defs/revision"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "MissionControlCommand",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol_version",
+        "command_id",
+        "command_type",
+        "target_id",
+        "expected_revision",
+        "payload"
+      ],
+      "properties": {
+        "protocol_version": {
+          "type": "integer",
+          "const": 1
+        },
+        "command_id": {
+          "$ref": "#/$defs/id"
+        },
+        "command_type": {
+          "type": "string",
+          "const": "mission.control"
+        },
+        "target_id": {
+          "$ref": "#/$defs/id"
+        },
+        "expected_revision": {
+          "$ref": "#/$defs/revision"
+        },
+        "payload": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "choice",
+            "comment"
+          ],
+          "properties": {
+            "choice": {
+              "type": "string",
+              "enum": [
+                "pause",
+                "resume",
+                "close"
+              ]
+            },
+            "comment": {
+              "$ref": "#/$defs/comment"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "KnowledgeDecideCommand",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol_version",
+        "command_id",
+        "command_type",
+        "target_id",
+        "expected_revision",
+        "payload"
+      ],
+      "properties": {
+        "protocol_version": {
+          "type": "integer",
+          "const": 1
+        },
+        "command_id": {
+          "$ref": "#/$defs/id"
+        },
+        "command_type": {
+          "type": "string",
+          "const": "knowledge.decide"
+        },
+        "target_id": {
+          "$ref": "#/$defs/id"
+        },
+        "expected_revision": {
+          "$ref": "#/$defs/revision"
+        },
+        "payload": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "choice",
+            "candidate_ref",
+            "evaluation_ref",
+            "scope_ref",
+            "comment"
+          ],
+          "properties": {
+            "choice": {
+              "type": "string",
+              "enum": [
+                "adopt",
+                "reject",
+                "revoke"
+              ]
+            },
+            "candidate_ref": {
+              "$ref": "#/$defs/id"
+            },
+            "evaluation_ref": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/id"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "scope_ref": {
+              "$ref": "#/$defs/id"
+            },
+            "comment": {
+              "$ref": "#/$defs/comment"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "ApplicationControlCommand",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol_version",
+        "command_id",
+        "command_type",
+        "target_id",
+        "expected_revision",
+        "payload"
+      ],
+      "properties": {
+        "protocol_version": {
+          "type": "integer",
+          "const": 1
+        },
+        "command_id": {
+          "$ref": "#/$defs/id"
+        },
+        "command_type": {
+          "type": "string",
+          "const": "application.control"
+        },
+        "target_id": {
+          "$ref": "#/$defs/id"
+        },
+        "expected_revision": {
+          "$ref": "#/$defs/revision"
+        },
+        "payload": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "choice",
+            "comment"
+          ],
+          "properties": {
+            "choice": {
+              "type": "string",
+              "enum": [
+                "quiesce",
+                "recover_readonly",
+                "halt_dispatch",
+                "resume_dispatch"
+              ]
+            },
+            "comment": {
+              "$ref": "#/$defs/comment"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "ScopeControlCommand",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol_version",
+        "command_id",
+        "command_type",
+        "target_id",
+        "expected_revision",
+        "payload"
+      ],
+      "properties": {
+        "protocol_version": {
+          "type": "integer",
+          "const": 1
+        },
+        "command_id": {
+          "$ref": "#/$defs/id"
+        },
+        "command_type": {
+          "type": "string",
+          "const": "scope.control"
+        },
+        "target_id": {
+          "$ref": "#/$defs/id"
+        },
+        "expected_revision": {
+          "$ref": "#/$defs/revision"
+        },
+        "payload": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "scope",
+            "choice",
+            "comment"
+          ],
+          "properties": {
+            "scope": {
+              "type": "string",
+              "enum": [
+                "principal",
+                "conversation",
+                "mission",
+                "control_operation"
+              ]
+            },
+            "choice": {
+              "type": "string",
+              "enum": [
+                "pause",
+                "resume",
+                "close"
+              ]
+            },
+            "comment": {
+              "$ref": "#/$defs/comment"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "usdAmount": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,8})(\\.[0-9]{1,9})?(?![\\s\\S])",
+      "minLength": 1,
+      "maxLength": 19
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}(?![\\s\\S])",
+      "minLength": 36,
+      "maxLength": 36
+    },
+    "revision": {
+      "type": "string",
+      "pattern": "^[1-9][0-9]{0,17}(?![\\s\\S])",
+      "minLength": 1,
+      "maxLength": 18
+    },
+    "hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+      "minLength": 64,
+      "maxLength": 64
+    },
+    "comment": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "maxLength": 16384
+    },
+    "refs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/id"
+      },
+      "minItems": 0,
+      "maxItems": 32
+    }
+  }
+}

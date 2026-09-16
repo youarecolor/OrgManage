@@ -1,0 +1,17 @@
+{
+  "oracle_version": "I1-P01-independent-oracle-v1",
+  "source_sections": ["G08 16.3", "G09 17.3", "G10 18.3", "G11 19.1", "G11 19.2", "G11 19.8", "G11 19.15"],
+  "coverage_limit": "Syntax, byte boundaries and integer codec only. No DB, authorization, trusted transport, persistence, isolation or external effect is tested.",
+  "ids": {
+    "command": "00000000-0000-0000-0000-000000000001",
+    "target": "00000000-0000-0000-0000-000000000002",
+    "reference": "00000000-0000-0000-0000-000000000003"
+  },
+  "valid_revisions": ["1", "9", "10", "9007199254740992", "9007199254740993", "999999999999999999"],
+  "invalid_revisions": ["", "0", "00", "01", "+1", "-1", "1.0", "1e3", " 1", "1 ", "1\n", "1\r\n", "１", "1000000000000000000", 1, 9007199254740992, null, true, {}, []],
+  "invalid_json": ["", " ", "{}{}", "[] true", "{\"a\":1,}", "[1,]", "/*comment*/{}", "//comment\n{}", "{a:1}", "{\"a\":undefined}", "{\"a\":NaN}", "{\"a\":Infinity}", "[01]", "[+1]", "[.1]", "[1.]", "[1e]", "[", "{\"a\":}", "\"unclosed", "\"\\x20\"", "\"line\nfeed\""],
+  "duplicate_json": ["{\"a\":1,\"a\":1}", "{\"a\":1,\"a\":2}", "{\"a\":1,\"\\u0061\":2}", "{\"nested\":{\"choice\":\"a\",\"\\u0063hoice\":\"b\"}}", "{\"__proto__\":1,\"__proto__\":2}"],
+  "invalid_utf8_bytes": [[192, 175], [226, 130], [128], [237, 160, 128], [244, 144, 128, 128], [255]],
+  "unknown_operations": ["shell", "http", "delete", "shell.exec", "http.request", "setup", "dialogue.shell", "conversation.post.shell", "change.propose", "reconciliation.decide"],
+  "canonical_mission_start": "{\"command_id\":\"00000000-0000-0000-0000-000000000001\",\"command_type\":\"mission.start\",\"expected_revision\":\"1\",\"payload\":{\"brief_revision\":\"00000000-0000-0000-0000-000000000003\",\"contract_revision\":\"00000000-0000-0000-0000-000000000003\"},\"protocol_version\":1,\"target_id\":\"00000000-0000-0000-0000-000000000002\"}"
+}

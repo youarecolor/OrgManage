@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES2024",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "noEmitOnError": true,
+    "forceConsistentCasingInFileNames": true,
+    "declaration": true,
+    "rootDir": "packages",
+    "outDir": "dist",
+    "types": ["node"]
+  },
+  "include": ["packages/**/*.ts"]
+}

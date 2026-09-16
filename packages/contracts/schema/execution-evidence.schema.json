@@ -1,0 +1,174 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:orgmanage:i1-p01:ExecutionEvidence:0.1",
+  "title": "ExecutionEvidence",
+  "description": "Trusted bundled contract profile 0.1. Shape validation alone grants no authority and proves no execution.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "cancellation",
+    "effect"
+  ],
+  "properties": {
+    "cancellation": {
+      "oneOf": [
+        {
+          "title": "CancellationNotRequested",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "not_requested"
+            }
+          }
+        },
+        {
+          "title": "CancellationRequested",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "request_ref"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "requested"
+            },
+            "request_ref": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        },
+        {
+          "title": "CancellationObserved",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "request_ref",
+            "observation_ref"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "observed"
+            },
+            "request_ref": {
+              "$ref": "#/$defs/id"
+            },
+            "observation_ref": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        }
+      ]
+    },
+    "effect": {
+      "oneOf": [
+        {
+          "title": "UnknownEffect",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "reconciliation_ref"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "unknown"
+            },
+            "reconciliation_ref": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        },
+        {
+          "title": "NotSentEffect",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "evidence_ref"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "not_sent"
+            },
+            "evidence_ref": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        },
+        {
+          "title": "AcceptedEffect",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "evidence_ref"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "accepted"
+            },
+            "evidence_ref": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        },
+        {
+          "title": "CompletedEffect",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "evidence_ref"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "completed"
+            },
+            "evidence_ref": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        },
+        {
+          "title": "FailedEffect",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "evidence_ref"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "failed"
+            },
+            "evidence_ref": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}(?![\\s\\S])",
+      "minLength": 36,
+      "maxLength": 36
+    }
+  }
+}

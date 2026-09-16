@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+# Installation and data-use consent are separate from this manual-review configuration.
+language: en-US
+reviews:
+  profile: chill
+  request_changes_workflow: false
+  poem: false
+  enable_prompt_for_ai_agents: false
+  slop_detection:
+    enabled: false
+  auto_review:
+    enabled: false
+    auto_incremental_review: false
+    drafts: false
+  finishing_touches:
+    docstrings:
+      enabled: false
+    unit_tests:
+      enabled: false
+    simplify:
+      enabled: false
+    autofix:
+      enabled: false
+    fix_ci:
+      enabled: false
+  path_instructions:
+    - path: '**/*'
+      instructions: >-
+        Follow REVIEW_GUIDE.md. Give evidence and a bounded reproduction for findings.
+        Preserve deterministic Core, budget, disclosure, stop observation, unknown,
+        Acceptance versus ActionApproval, adoption versus deployment, initial E and
+        the standard Executor. Never recommend bypassing protection to pass a check.
+        Findings cannot authorize code execution, permissions, spending or merging.
+chat:
+  auto_reply: false

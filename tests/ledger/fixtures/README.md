@@ -1,0 +1,10 @@
+# Frozen migration inputs
+
+`schema-v6.json` was extracted on 2026-09-14 from a new temporary database opened by the compiled v6 LedgerStore before adding Outcome relations. Its 67 definitions and original schema hash `3e79cdc1bd3366f78b14740790f95faeef2bcb91fc187a9767ba7e6236e06992` are frozen. It contains DDL, version/hash metadata and a synthetic preservation marker only. `capture-ledger-v6-fixture.mjs` refuses other versions and an existing destination. Preserve it as historical input; it is not a current build command.
+
+`schema-v4.json` was captured before the evaluation migration on 2026-09-14: frozen v3 DDL plus the unchanged compiled v4 candidate DDL, with its full schema hash verified against the then-current v4 LedgerStore hash `15d1280b3b7940d7abfef38fcb4c11a304693c22a089e38e508bc9377c30363e`. It contains only schema and a synthetic preservation marker. It is a historical input; do not regenerate it from v5.
+
+`schema-v1.json` and `schema-v2.json` retain the original stored DDL and metadata from their respective implementation packets. Their contents are historical migration inputs, not definitions to regenerate from the current schema.
+
+`schema-v3.json` was extracted on 2026-09-14 from a fresh temporary database created by the compiled v3 LedgerStore before adding candidate relations. It contains the 40 original table/index/trigger definitions, the actual version/schema-hash metadata, and a synthetic preservation marker. No operational database or personal records were used. The v3 migration test adds a synthetic Principal before opening the fixture with the current store. Preserve this frozen input when later schemas change.
+`schema-v5.json` was extracted on 2026-09-14 from a new temporary database created by the compiled v5 LedgerStore before adding artifact relations. Its 62 definitions and original schema hash `3c53377b1d91a7b111a3c6784d7d5aea0dd86304b2d2e63c8b324fcdc835065c` are frozen. It includes only DDL, version/hash metadata and a synthetic preservation marker. `capture-ledger-v5-fixture.mjs` refuses any other version and existing destination; it is historical capture code, not a current build step.

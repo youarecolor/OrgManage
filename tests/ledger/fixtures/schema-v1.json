@@ -1,0 +1,43 @@
+{
+  "schema": [
+    "CREATE TABLE meta(key TEXT PRIMARY KEY, value TEXT NOT NULL) STRICT",
+    "CREATE TABLE principals(id TEXT PRIMARY KEY, kind TEXT NOT NULL CHECK(kind IN ('person','organization')), display_name TEXT NOT NULL) STRICT",
+    "CREATE TABLE memberships(principal_id TEXT NOT NULL REFERENCES principals(id), actor_id TEXT NOT NULL, role TEXT NOT NULL CHECK(role IN ('owner','viewer','revoked')), generation INTEGER NOT NULL CHECK(generation BETWEEN 1 AND 999999999999999999), PRIMARY KEY(principal_id,actor_id)) STRICT",
+    "CREATE TABLE scopes(id TEXT PRIMARY KEY, principal_id TEXT REFERENCES principals(id), kind TEXT NOT NULL CHECK(kind IN ('application','principal','conversation','mission','control_operation')), parent_id TEXT REFERENCES scopes(id), revision INTEGER NOT NULL CHECK(revision BETWEEN 1 AND 999999999999999999), epoch INTEGER NOT NULL CHECK(epoch BETWEEN 1 AND 999999999999999999), state TEXT NOT NULL CHECK(state IN ('active','paused','closed')), reason TEXT, actor_id TEXT, changed_at TEXT, CHECK((kind='application' AND principal_id IS NULL AND parent_id IS NULL) OR (kind!='application' AND principal_id IS NOT NULL AND parent_id IS NOT NULL)), CHECK(parent_id IS NULL OR parent_id!=id), UNIQUE(principal_id,id)) STRICT",
+    "CREATE UNIQUE INDEX one_application_scope ON scopes(kind) WHERE kind='application'",
+    "CREATE TRIGGER scope_parent_insert BEFORE INSERT ON scopes WHEN NEW.parent_id IS NOT NULL AND NOT EXISTS(SELECT 1 FROM scopes p WHERE p.id=NEW.parent_id AND ((NEW.kind='principal' AND p.kind='application') OR (NEW.kind!='principal' AND p.principal_id=NEW.principal_id))) BEGIN SELECT RAISE(ABORT,'scope parent mismatch'); END",
+    "CREATE TRIGGER scope_identity_update BEFORE UPDATE ON scopes WHEN NEW.id!=OLD.id OR NEW.kind!=OLD.kind OR NEW.principal_id IS NOT OLD.principal_id OR NEW.parent_id IS NOT OLD.parent_id BEGIN SELECT RAISE(ABORT,'scope identity is immutable'); END",
+    "CREATE TABLE record_versions(principal_id TEXT NOT NULL REFERENCES principals(id), version_id TEXT NOT NULL, subject_id TEXT NOT NULL, kind TEXT NOT NULL CHECK(kind IN ('conversation','message','brief','contract','policy','mission','approval','intent','artifact','outcome','evidence','control_operation','dispatch_observation','cost_obligation','run','attempt','reconciliation_case','cost_event','job','knowledge','evaluation','knowledge_use','source','source_grant','context_manifest','change','classification_correction','resource_snapshot','resource_hold','budget_month')), revision INTEGER NOT NULL CHECK(revision BETWEEN 1 AND 999999999999999999), data TEXT NOT NULL CHECK(json_valid(data)), PRIMARY KEY(principal_id,version_id), UNIQUE(principal_id,kind,subject_id,revision), UNIQUE(principal_id,kind,subject_id,revision,version_id)) STRICT",
+    "CREATE TABLE record_heads(principal_id TEXT NOT NULL, id TEXT NOT NULL, kind TEXT NOT NULL, revision INTEGER NOT NULL, current_version_id TEXT NOT NULL, PRIMARY KEY(principal_id,id), UNIQUE(principal_id,id,kind), FOREIGN KEY(principal_id,kind,id,revision,current_version_id) REFERENCES record_versions(principal_id,kind,subject_id,revision,version_id)) STRICT",
+    "CREATE TRIGGER record_version_update BEFORE UPDATE ON record_versions BEGIN SELECT RAISE(ABORT,'record version is immutable'); END",
+    "CREATE TRIGGER record_version_delete BEFORE DELETE ON record_versions BEGIN SELECT RAISE(ABORT,'record version cannot be deleted'); END",
+    "CREATE TRIGGER record_identity_update BEFORE UPDATE ON record_heads WHEN NEW.principal_id!=OLD.principal_id OR NEW.id!=OLD.id OR NEW.kind!=OLD.kind BEGIN SELECT RAISE(ABORT,'record identity is immutable'); END",
+    "CREATE TRIGGER immutable_record_update BEFORE UPDATE ON record_heads WHEN OLD.kind IN ('brief','contract','artifact','evidence') BEGIN SELECT RAISE(ABORT,'immutable record'); END",
+    "CREATE TABLE approval_bindings(principal_id TEXT NOT NULL, request_id TEXT NOT NULL, kind TEXT NOT NULL DEFAULT 'approval' CHECK(kind='approval'), action_digest TEXT NOT NULL CHECK(length(action_digest)=64 AND action_digest NOT GLOB '*[^0-9a-f]*'), PRIMARY KEY(principal_id,request_id), UNIQUE(principal_id,request_id,action_digest), FOREIGN KEY(principal_id,request_id,kind) REFERENCES record_heads(principal_id,id,kind)) STRICT",
+    "CREATE TABLE intent_approval_bindings(principal_id TEXT NOT NULL, intent_id TEXT NOT NULL, kind TEXT NOT NULL DEFAULT 'intent' CHECK(kind='intent'), request_id TEXT NOT NULL, action_digest TEXT NOT NULL, PRIMARY KEY(principal_id,intent_id), FOREIGN KEY(principal_id,intent_id,kind) REFERENCES record_heads(principal_id,id,kind), FOREIGN KEY(principal_id,request_id,action_digest) REFERENCES approval_bindings(principal_id,request_id,action_digest)) STRICT",
+    "CREATE TABLE commands(principal_id TEXT NOT NULL REFERENCES principals(id), command_id TEXT NOT NULL, actor_id TEXT NOT NULL, digest TEXT NOT NULL CHECK(length(digest)=64 AND digest NOT GLOB '*[^0-9a-f]*'), receipt TEXT NOT NULL CHECK(json_valid(receipt)), PRIMARY KEY(principal_id,command_id)) STRICT",
+    "CREATE TABLE audit(seq INTEGER PRIMARY KEY AUTOINCREMENT, principal_id TEXT NOT NULL REFERENCES principals(id), command_id TEXT, kind TEXT NOT NULL, entity_id TEXT, created_at TEXT NOT NULL, FOREIGN KEY(principal_id,command_id) REFERENCES commands(principal_id,command_id) DEFERRABLE INITIALLY DEFERRED) STRICT"
+  ],
+  "meta": [
+    {
+      "key": "_store.owner_epoch",
+      "value": "1"
+    },
+    {
+      "key": "_store.owner_id",
+      "value": "1d3e8041-b390-41da-ad77-188bc42588ca"
+    },
+    {
+      "key": "_store.schema_hash",
+      "value": "d2b595bb59a22a3c959f0fa77bab0c94f9f78271ab59100a74eafdfcd824d913"
+    },
+    {
+      "key": "_store.version",
+      "value": "orgmanage-local-ledger-v1"
+    },
+    {
+      "key": "fixture_preserve",
+      "value": "original"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+import { readFileSync,writeFileSync } from 'node:fs';
+import { LedgerStore } from '../../../dist/ledger/src/index.js';
+import { FixedRunnerCoordinator } from '../../../dist/core/src/runner.js';
+const [dbPath,inputPath,markerPath]=process.argv.slice(2);
+const input=JSON.parse(readFileSync(inputPath,'utf8'));input.profile.revision=BigInt(input.profile.revision);
+const store=await LedgerStore.open(dbPath);
+const port={startExecutor:async b=>{writeFileSync(markerPath,JSON.stringify(b),{flag:'wx'});process.exit(42);},inspect:async()=>{throw new Error('Not used');},requestStop:async()=>{throw new Error('Not used');}};
+const core=new FixedRunnerCoordinator(store,[{profile:input.profile,port}]);
+const lease=core.claim(input.p,input.workspaceId,input.scope,input.actor);await core.startExecutor(input.p,lease.id);
+throw new Error('Crash fixture must exit during start');

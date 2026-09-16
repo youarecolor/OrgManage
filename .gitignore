@@ -1,0 +1,16 @@
+# Convenience only: release membership comes from the explicit hashed manifest.
+node_modules/
+.npm-cache/
+.private/
+.env
+.env.*
+dist/
+apps/home/dist/
+coverage/
+*.log
+*.db
+*.db-*
+*.sqlite
+*.sqlite-*
+*.sqlite3
+*.sqlite3-*
