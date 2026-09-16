@@ -1,3 +1,4 @@
+import './output-guard.mjs';
 import { app, BrowserWindow, dialog, ipcMain, Menu, nativeImage, protocol, session, Tray, utilityProcess } from 'electron';
 import { execFile } from 'node:child_process';
 import { randomUUID } from 'node:crypto';
